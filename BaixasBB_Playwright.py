@@ -43,7 +43,7 @@ raw_titulos = """
 # TRATAMENTO DA LISTA:
 lista_titulos = [t.strip() for t in raw_titulos.split('\n') if t.strip()]
 
-input("⚠️ ATENÇÃO: MODO PRODUÇÃO (VAI SALVAR). Pressione Enter para iniciar...")
+input("⚠️ ATENÇÃO: MODO PRODUÇÃO. Pressione Enter para iniciar...")
 print(">>> Script Iniciado. Preparando ambiente...")
 
 def run(playwright: Playwright) -> None:
@@ -107,7 +107,7 @@ def run(playwright: Playwright) -> None:
         print("Aguardando carregamento da tela principal (15s)...")
         time.sleep(15) 
         
-        # Aguarda a dialogo aparecer e cancela (mantido)
+        # Aguarda a dialogo aparecer e cancela 
         if page.get_by_role("button", name="Cancelar").is_visible():
             page.get_by_role("button", name="Cancelar").click()
         
@@ -162,7 +162,7 @@ def run(playwright: Playwright) -> None:
                 print(f"   [3] Preenchendo campo de texto com: {titulo}")
                 time.sleep(2)
                 
-                # Seletor que funcionou
+                #Pesquisa o titulo 
                 page.get_by_title("Filtro através de perguntas").get_by_role("textbox").fill(titulo)
 
                 time.sleep(1)
@@ -212,19 +212,14 @@ def run(playwright: Playwright) -> None:
                 # --- AÇÃO REAL: SALVAR ---
                 print("   [7] SALVANDO A BAIXA...")
                 page.get_by_role("button", name="Salvar").click()
-                
-                # Verifica confirmação extra ("Sim")
                 time.sleep(2)
-                # if page.get_by_role("button", name="Sim").is_visible():
-                #      print("       Confirmando 'Sim'...")
-                #      page.get_by_role("button", name="Sim").click()
                 
                 print(f"   [SUCESSO] Baixa finalizada para: {titulo}")
                 
                 # Registra sucesso
                 lista_sucesso.append(titulo)
                 
-                time.sleep(7)
+                time.sleep(5)
                 print(f"--> Fim do ciclo para o título {titulo}.\n")
 
             except Exception as e_titulo:
@@ -261,7 +256,7 @@ def run(playwright: Playwright) -> None:
         
         print("#"*60 + "\n")
         
-        # Mantém aberto pra você ver o relatório
+        # Mantém aberto pra ver o relatório
         page.pause()
 
     except Exception as e:
@@ -272,4 +267,5 @@ def run(playwright: Playwright) -> None:
         browser.close()
 
 with sync_playwright() as playwright:
+
     run(playwright)
