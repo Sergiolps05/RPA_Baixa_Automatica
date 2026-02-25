@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 USUARIO = os.getenv("USUARIO")
 SENHA = os.getenv("SENHA")
-# PERIODO = os.getenv("21/01/2026")
 
 # --- LISTA DE TÍTULOS ---
 raw_titulos = """
@@ -43,7 +42,7 @@ raw_titulos = """
 # TRATAMENTO DA LISTA:
 lista_titulos = [t.strip() for t in raw_titulos.split('\n') if t.strip()]
 
-input("⚠️ ATENÇÃO: MODO PRODUÇÃO. Pressione Enter para iniciar...")
+input(" Pressione Enter para iniciar...")
 print(">>> Script Iniciado. Preparando ambiente...")
 
 def run(playwright: Playwright) -> None:
@@ -59,7 +58,7 @@ def run(playwright: Playwright) -> None:
     try:
         # --- Navegação e Login ---
         print("--- Etapa: Login e Acesso ---")
-        page.goto("https://selbetti174877.protheus.cloudtotvs.com.br:4010/webapp/")
+        page.goto("https://URLDOPROTHEUS") 
         page.get_by_role("group", name="Ambiente no servidor").get_by_role("combobox").select_option("CS86R7_PROD")
         page.get_by_role("button", name="Ok").click()
 
@@ -81,7 +80,7 @@ def run(playwright: Playwright) -> None:
         try:
             page.locator("#COMP4507").get_by_role("textbox").click()
             time.sleep(2)
-            page.locator("#COMP4507").get_by_role("textbox").fill("23/01/2026")
+            page.locator("#COMP4507").get_by_role("textbox").fill("23/01/2026") #Aqui é definido a data do ambiente
             time.sleep(2)
             page.get_by_role("button", name="Confirmar").click()
         except:
@@ -105,7 +104,6 @@ def run(playwright: Playwright) -> None:
         page.get_by_role("button", name="Confirmar").click()
         
         print("Aguardando carregamento da tela principal (15s)...")
-        time.sleep(15) 
         
         # Aguarda a dialogo aparecer e cancela 
         if page.get_by_role("button", name="Cancelar").is_visible():
@@ -134,7 +132,7 @@ def run(playwright: Playwright) -> None:
                 for tentativa in range(3):
                     try:
                         page.get_by_role("button", name="Filtrar").click()
-                        time.sleep(2) # Espera a animação
+                        time.sleep(2) 
                         
                         if page.get_by_role("button", name="Aplicar filtros selecionados").is_visible():
                             menu_filtro_abriu = True
@@ -153,7 +151,7 @@ def run(playwright: Playwright) -> None:
                 page.get_by_role("button", name="Aplicar filtros selecionados").click()
                 time.sleep(0.5)
                 
-                # Avança o banco
+                # Avança o banco (Banco do Brasil)
                 print("   [2.5] Clicando em Avançar...")
                 page.get_by_role("button", name="Avançar").click()
                 time.sleep(0.5)
@@ -269,3 +267,4 @@ def run(playwright: Playwright) -> None:
 with sync_playwright() as playwright:
 
     run(playwright)
+
